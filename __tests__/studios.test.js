@@ -29,7 +29,21 @@ describe('app routes', () => {
         });
       });
   });
- 
-  //get by id
+  it('gets studio by id', async() => {
+    const studio = await getStudio();
+    return request(app)
+      .get(`/api/v1/studios/${studio._id}`)
+      .then(res => {
+        expect(res.body).toEqual(studio);
+      });
+  });
+  it('gets al studios', async() => {
+    const studios = await getStudios();
+    return request(app)
+      .get('/api/v1/studios')
+      .then(res => {
+        expect(res.body).toEqual(studios);
+      });
+  });
   //get all
 });

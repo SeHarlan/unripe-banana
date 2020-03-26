@@ -26,7 +26,7 @@ don't need to retest things you have already tested (like basic POST and GET).
 * Film
 [x]Actor
 * Reviewer
-* Review
+[x] Review
 
 ### Directions Key
 * `<...>` is a placeholder for actual data.

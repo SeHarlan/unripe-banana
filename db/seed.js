@@ -1,5 +1,6 @@
 const Studio = require('../lib/models/Studio');
 const Actor = require('../lib/models/Actor');
+const Reviewer = require('../lib/models/Reviewer');
 const chance = require('chance').Chance();
 
 module.exports = async() => {
@@ -16,5 +17,10 @@ module.exports = async() => {
     name: chance.name(),
     dob: chance.date(),
     pob: chance.city()
+  })));
+
+  const reviewer = await Reviewer.create([...Array(50)].map(() => ({
+    name: chance.name(),
+    company: chance.company()
   })));
 };

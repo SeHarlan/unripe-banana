@@ -22,9 +22,9 @@ don't need to retest things you have already tested (like basic POST and GET).
 
 ## Models (Entities/Resources)
 
-* Studio
+[x] Studio
 * Film
-* Actor
+[x]Actor
 * Reviewer
 * Review
 
@@ -32,7 +32,6 @@ don't need to retest things you have already tested (like basic POST and GET).
 * `<...>` is a placeholder for actual data.
 * `S` = string, `D` = date, `N` = number, `I` = ObjectId
 * Properties marked with `R` are required.
-
 `_id` (and `__v`) properties omitted for clarity.
 
 ### Studio

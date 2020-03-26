@@ -2,7 +2,7 @@ const { getActor, getActors } = require('../db/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
-const mongoose = require('mongoose');
+
 
 
 describe('actor routes', () => {

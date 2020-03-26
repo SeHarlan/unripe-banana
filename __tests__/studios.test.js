@@ -4,7 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 
-describe('app routes', () => {
+describe('studio routes', () => {
   it('creates a Studio', () => {
     return request(app)
       .post('/api/v1/studios')

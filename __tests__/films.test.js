@@ -6,14 +6,14 @@ const app = require('../lib/app');
 describe('films tests', () => {
   it('creates a new film', async() => {
 
-    const studio = getStudio();
-    const actor = getActor();
+    const studio = await getStudio();
+    const actor = await getActor();
     return request(app)
       .post('/api/v1/films')
       .send({
         title: 'test film',
         studio: studio._id,
-        released: '2000',
+        released: 2000,
         cast: [{
           role: 'test role',
           actor: actor._id
@@ -24,17 +24,17 @@ describe('films tests', () => {
           _id: expect.any(String),
           __v: 0,
           title: 'test film',
-          studio: studio._id,
-          released: '2000',
+          studio: expect.any(String),
+          released: 2000,
           cast: [{
+            _id: expect.any(String),
             role: 'test role',
-            actor: actor._id
+            actor: expect.any(String)
           }]
         });
       });
   });
   //get all
   //get by id
-  //post
 })
 ;

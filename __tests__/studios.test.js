@@ -45,5 +45,4 @@ describe('app routes', () => {
         expect(res.body).toEqual(studios);
       });
   });
-  //get all
 });

@@ -11,7 +11,7 @@ describe('actor routes', () => {
       .post('/api/v1/actors')
       .send({
         name: 'test actor',
-        dob: mongoose.Schema.Types.Date,
+        dob: '02-19-1994',
         pob: 'test city'
       })
       .then(res => {

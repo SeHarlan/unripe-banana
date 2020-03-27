@@ -1,4 +1,4 @@
-const { getReviews, getFilm, getReviewer, getReview } = require('../db/data-helpers');
+const { getFilm, getReviewer, getReview } = require('../db/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
@@ -26,7 +26,28 @@ describe('review tests', () => {
         });
       });
   });
-  //get top 100
-  //delete
+  it('gets top 100 reviews', async() => {
+    return request(app)
+      .get('/api/v1/reviews')
+      .then(res => {
+        // expect(res.body.length).toEqual(100);
+        expect(res.body).toContainEqual({
+          rating: expect.any(Number),
+          reviewer: expect.any(String),
+          review: expect.any(String),
+          film: expect.any(String),
+          _id: expect.any(String),
+          __v: 0
+        });
+      });
+  });
+  it('deletes a review', async() => {
+    const review = await getReview();
+    return request(app)
+      .delete(`/api/v1/reviews/${review._id}`)
+      .then(res => {
+        expect(res.body).toEqual(review);
+      });
+  });
 })
 ;

@@ -58,12 +58,18 @@ describe('Reviewer routes', () => {
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
-        expect(res.body).toEqual('Cannot be deleted while reviews exist');
+        expect(res.body).toEqual({ 'error': 'Cannot be deleted while reviews exist' });
       });
   });
-  it('cannot delete a reviewer if they have reviews', async() => {
+  it('deletes a reviewer when they have no reviews', async() => {
     const reviewer = await getReviewer();
-    await Review.deleteMany({ reviewer: reviewer._id });
+    await Review.deleteMany({ reviewer: reviewer._id }, function(err, result) {
+      if(err) {
+        console.log('deletemany err: ', err);
+      } else {
+        console.log('delete many result, ', result);
+      }
+    });
     return request(app)
       .delete(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {

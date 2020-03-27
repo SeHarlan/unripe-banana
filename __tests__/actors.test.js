@@ -1,4 +1,4 @@
-const { getActor, getActors } = require('../db/data-helpers');
+const { getActor, getActors, getFilms } = require('../db/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
@@ -26,10 +26,14 @@ describe('actor routes', () => {
   });
   it('gets actor by id', async() => {
     const actor = await getActor();
+    const films = await getFilms({ 'cast.actor': actor._id });
+  
     return request(app)
       .get(`/api/v1/actors/${actor._id}`)
       .then(res => {
-        expect(res.body).toEqual(actor);
+        expect(res.body).toEqual({
+          ...actor,
+          films });
       });
   });
   it('gets all actors', async() => {

@@ -34,7 +34,21 @@ describe('films tests', () => {
         });
       });
   });
-  //get all
-  //get by id
+  it('gets Film by id', async() => {
+    const film = await getFilm();
+    return request(app)
+      .get(`/api/v1/films/${film._id}`)
+      .then(res => {
+        expect(res.body).toEqual(film);
+      });
+  });
+  it('gets all Films', async() => {
+    const films = await getFilms();
+    return request(app)
+      .get('/api/v1/films')
+      .then(res => {
+        expect(res.body).toEqual(films);
+      });
+  });
 })
 ;

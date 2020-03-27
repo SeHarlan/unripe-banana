@@ -23,10 +23,10 @@ don't need to retest things you have already tested (like basic POST and GET).
 ## Models (Entities/Resources)
 
 [x] Studio
-* Film
+[x]Film
 [x]Actor
-* Reviewer
-[x] Review
+[x] Reviewer
+* Review
 
 ### Directions Key
 * `<...>` is a placeholder for actual data.

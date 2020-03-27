@@ -20,7 +20,7 @@ module.exports = async() => {
     pob: chance.city()
   })));
 
-  const reviewers = await Reviewer.create([...Array(30)].map(() => ({
+  const reviewers = await Reviewer.create([...Array(10)].map(() => ({
     name: chance.name(),
     company: chance.company()
   })));
@@ -30,8 +30,6 @@ module.exports = async() => {
     studio: chance.pickone(studios)._id,
     released: chance.year(),
     cast: [
-      { role: chance.animal(), actor: chance.pickone(actors)._id },
-      { role: chance.animal(), actor: chance.pickone(actors)._id },
       { role: chance.animal(), actor: chance.pickone(actors)._id },
       { role: chance.animal(), actor: chance.pickone(actors)._id }
     ]

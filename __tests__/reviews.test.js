@@ -30,12 +30,19 @@ describe('review tests', () => {
     return request(app)
       .get('/api/v1/reviews')
       .then(res => {
-        // expect(res.body.length).toEqual(100);
+        expect(res.body.length).toEqual(100);
         expect(res.body).toContainEqual({
           rating: expect.any(Number),
           reviewer: expect.any(String),
           review: expect.any(String),
-          film: expect.any(String),
+          film: {
+            _id: expect.any(String),
+            title: expect.any(String),
+            studio: expect.any(String),
+            released: expect.any(Number),
+            cast: expect.any(Array),
+            __v: 0
+          },
           _id: expect.any(String),
           __v: 0
         });

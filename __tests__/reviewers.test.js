@@ -1,5 +1,5 @@
 const { getReviewer, getReviewers, getReviews, getFilms } = require('../db/data-helpers');
-
+const Review = require('../lib/models/Review');
 const request = require('supertest');
 const app = require('../lib/app');
 
@@ -25,9 +25,6 @@ describe('Reviewer routes', () => {
   it('gets Reviewer by id', async() => {
     const reviewer = await getReviewer();
     const reviews = await getReviews({ reviewer: reviewer._id });
-    
-
-
     return request(app)
       .get(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
@@ -54,6 +51,25 @@ describe('Reviewer routes', () => {
           ...reviewer,
           name: 'updated name'
         });
+      });
+  });
+  it('cannot delete a reviewer if they have reviews', async() => {
+    const reviewer = await getReviewer();
+    return request(app)
+      .delete(`/api/v1/reviewers/${reviewer._id}`)
+      .then(res => {
+        expect(res.body).toEqual('Cannot be deleted while reviews exist');
+      });
+  });
+  it('cannot delete a reviewer if they have reviews', async() => {
+    const reviewer = await getReviewer();
+    await Review.deleteMany({ reviewer: reviewer._id });
+    return request(app)
+      .delete(`/api/v1/reviewers/${reviewer._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          ...reviewer,
+          reviews: [] });
       });
   });
 });

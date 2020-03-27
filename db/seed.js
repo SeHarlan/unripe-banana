@@ -2,6 +2,7 @@ const Studio = require('../lib/models/Studio');
 const Actor = require('../lib/models/Actor');
 const Reviewer = require('../lib/models/Reviewer');
 const Film = require('../lib/models/Film');
+const Review = require('../lib/models/Review');
 const chance = require('chance').Chance();
 
 module.exports = async() => {
@@ -33,5 +34,11 @@ module.exports = async() => {
       { role: chance.animal(), actor: chance.pickone(actors)._id },
       { role: chance.animal(), actor: chance.pickone(actors)._id }
     ]
+  })));
+  await Review.create([...Array(20)].map(() => ({
+    rating: chance.integer({ min: 1, max: 5 }),
+    reviewer: chance.pickone(reviewers)._id,
+    review: chance.sentence(),
+    film: chance.pickone(films)._id
   })));
 };

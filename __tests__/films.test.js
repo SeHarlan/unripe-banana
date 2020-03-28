@@ -1,4 +1,4 @@
-const { getFilm, getFilms, getActor, getStudio, getActors, getReviews } = require('../db/data-helpers');
+const { getFilm, getFilms, getActor, getStudio, getActors, getReviews, getStudios } = require('../db/data-helpers');
 
 const request = require('supertest');
 const app = require('../lib/app');
@@ -35,7 +35,7 @@ describe('films tests', () => {
       });
   });
   it('gets Film by id', async() => {
-    const film = await getFilm();
+    const film = await getFilm({}, '-_id');
     const studio = await getStudio({ _id: { $in: film.studio } });
     const actors = await getActors({ _id: { $in: film.cast.map(c => c.actor) } });
     const reviews = await getReviews({ film: film._id });
@@ -54,12 +54,21 @@ describe('films tests', () => {
       });
   });
   it('gets all Films', async() => {
-    const films = await getFilms();
+    const films = await getFilms({}, '-cast');
+    const studios = await getStudios({}, '_id name');
+
     return request(app)
       .get('/api/v1/films')
       .then(res => {
-        expect(res.body).toEqual(films);
+        expect(res.body).toEqual(
+          films.map(film => {
+            const [curStudio] = studios.filter(studio => (studio._id === film.studio)); 
+            return { 
+              ...film, 
+              studio: curStudio
+            };
+          })
+        );
       });
   });
-})
-;
+});

@@ -31,7 +31,7 @@ describe('studio routes', () => {
   });
   it('gets studio by id', async() => {
     const studio = await getStudio();
-    const films = await getFilms({ studio: studio._id });
+    const films = await getFilms({ studio: studio._id }, '_id title');
     return request(app)
       .get(`/api/v1/studios/${studio._id}`)
       .then(res => {
@@ -41,7 +41,7 @@ describe('studio routes', () => {
       });
   });
   it('gets al studios', async() => {
-    const studios = await getStudios();
+    const studios = await getStudios({}, '_id name');
     return request(app)
       .get('/api/v1/studios')
       .then(res => {

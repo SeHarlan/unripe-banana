@@ -32,19 +32,13 @@ describe('review tests', () => {
       .then(res => {
         expect(res.body.length).toEqual(100);
         expect(res.body).toContainEqual({
+          _id: expect.any(String),
           rating: expect.any(Number),
-          reviewer: expect.any(String),
           review: expect.any(String),
           film: {
             _id: expect.any(String),
             title: expect.any(String),
-            studio: expect.any(String),
-            released: expect.any(Number),
-            cast: expect.any(Array),
-            __v: 0
           },
-          _id: expect.any(String),
-          __v: 0
         });
       });
   });

@@ -24,13 +24,20 @@ describe('Reviewer routes', () => {
   });
   it('gets Reviewer by id', async() => {
     const reviewer = await getReviewer();
-    const reviews = await getReviews({ reviewer: reviewer._id });
+    const reviews = await getReviews({ reviewer: reviewer._id }, '_id rating review film');
+    const films = await getFilms({}, '_id title');
     return request(app)
       .get(`/api/v1/reviewers/${reviewer._id}`)
       .then(res => {
         expect(res.body).toEqual({
           ...reviewer,
-          reviews });
+          reviews: reviews.map(review => {
+            const [curFilm] = films.filter(film => film._id === review.film);
+            return {
+              ...review,
+              film: curFilm
+            };
+          }) });
       });
   });
   it('gets all Reviewers', async() => {

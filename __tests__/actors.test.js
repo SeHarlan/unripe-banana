@@ -37,7 +37,7 @@ describe('actor routes', () => {
       });
   });
   it('gets all actors', async() => {
-    const actors = await getActors();
+    const actors = await getActors({}, '_id name');
     return request(app)
       .get('/api/v1/actors')
       .then(res => {

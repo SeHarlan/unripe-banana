@@ -38,7 +38,7 @@ describe('films tests', () => {
     const film = await getFilm();
     const studio = await getStudio({ _id: { $in: film.studio } }, '_id name');
     const actors = await getActors({ _id: { $in: film.cast.map(c => c.actor) } }, '_id name');
-    const reviews = await getReviews({ film: film._id }, '-film');
+    const reviews = await getReviews({ film: film._id }, '-film -__v');
     const reviewers = await getReviewers({}, '_id name');
    
     return request(app)
@@ -47,9 +47,13 @@ describe('films tests', () => {
         expect(res.body).toEqual({
           ...film,
           studio,
-          cast: film.cast.map((c, i) => ({
-            ...c, actor: actors[i]
-          })),
+          cast: film.cast.map(c => {
+            const [curActor] = actors.filter(actor => (actor._id === c.actor));
+            return {
+              ...c, 
+              actor: curActor
+            };
+          }),
           reviews: reviews.map(review => {
             const [curReviewer] = reviewers.filter(reviewer => (reviewer._id === review.reviewer));
             return { ...review, reviewer: curReviewer };

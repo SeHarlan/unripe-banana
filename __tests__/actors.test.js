@@ -26,7 +26,7 @@ describe('actor routes', () => {
   });
   it('gets actor by id', async() => {
     const actor = await getActor();
-    const films = await getFilms({ 'cast.actor': actor._id }, '_id title released');
+    const films = await getFilms({ 'cast.actor': actor._id }, '_id title released cast');
   
     return request(app)
       .get(`/api/v1/actors/${actor._id}`)

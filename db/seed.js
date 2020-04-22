@@ -1,21 +1,44 @@
-const BlogPost = require('../lib/models/BlogPost');
-const Comment = require('../lib/models/Comment');
+const Studio = require('../lib/models/Studio');
+const Actor = require('../lib/models/Actor');
+const Reviewer = require('../lib/models/Reviewer');
+const Film = require('../lib/models/Film');
+const Review = require('../lib/models/Review');
 const chance = require('chance').Chance();
 
-module.exports = async({ blogPostsToCreate = 10, commentsToCreate = 100 } = {}) => {
-  const handles = ['J.R.R. Tolkien', 'Frank Herbert', 'Isaac Asimov'];
-  const blogPost = await BlogPost.create([...Array(blogPostsToCreate)].map(() => ({
-    author: chance.pickone(handles),
-    text: chance.paragraph()
+module.exports = async() => {
+  const studios = await Studio.create([...Array(5)].map(() => ({
+    name: chance.company(),
+    address: {
+      city: chance.city(),
+      state: chance.state(),
+      country: chance.country()
+    }
   })));
 
-  
+  const actors = await Actor.create([...Array(15)].map(() => ({
+    name: chance.name(),
+    dob: chance.date(),
+    pob: chance.city()
+  })));
 
-  await Comment.create([...Array(commentsToCreate)].map(() => {
-    return {
-      blogPostId: chance.pickone(blogPost)._id,
-      handle: chance.pickone(handles),
-      text: chance.sentence()
-    };
-  }));
+  const reviewers = await Reviewer.create([...Array(30)].map(() => ({
+    name: chance.name(),
+    company: chance.company()
+  })));
+
+  const films = await Film.create([...Array(20)].map(() => ({
+    title: `Your ${chance.profession()} is a ${chance.animal()}?!`,
+    studio: chance.pickone(studios)._id,
+    released: chance.year(),
+    cast: [
+      { role: chance.animal(), actor: chance.pickone(actors)._id },
+      { role: chance.animal(), actor: chance.pickone(actors)._id }
+    ]
+  })));
+  await Review.create([...Array(130)].map(() => ({
+    rating: chance.integer({ min: 1, max: 5 }),
+    reviewer: chance.pickone(reviewers)._id,
+    review: chance.sentence({ words: 5 }),
+    film: chance.pickone(films)._id
+  })));
 };
